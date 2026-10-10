@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vazifalar | Kanban taxtasi</title>
+<style>
+:root{--bg:#f5f3ff;--fg:#1e1b4b;--mut:#6b6894;--card:#fff;--line:#e0dcfa;--a:#6d28d9;--b:#db2777;--c:#059669;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e0c1d;--fg:#ece9ff;--mut:#9a95c4;--card:#171430;--line:#2a2650;--a:#a78bfa;--b:#f472b6;--c:#34d399}}
+:root[data-theme="dark"]{--bg:#0e0c1d;--fg:#ece9ff;--mut:#9a95c4;--card:#171430;--line:#2a2650;--a:#a78bfa;--b:#f472b6;--c:#34d399}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5}
+.w{max-width:1050px;margin:0 auto;padding:22px 16px 60px}
+h1{margin:0;font-size:clamp(26px,6vw,38px)}
+h1 span{background:linear-gradient(90deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--mut);margin:4px 0 18px}
+.add{display:flex;gap:8px;margin-bottom:12px}
+.add input{flex:1;min-width:0;padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--fg);font:inherit}
+.add button{border:0;border-radius:10px;padding:0 20px;background:linear-gradient(90deg,var(--a),var(--b));color:#fff;font:inherit;font-weight:700;cursor:pointer}
+.stats{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:8px;color:var(--mut);font-size:14px}
+.prog{height:8px;border-radius:99px;background:var(--line);overflow:hidden;margin-bottom:20px}
+.prog div{height:100%;width:0;background:var(--c);transition:width .4s}
+.board{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:760px){.board{grid-template-columns:repeat(3,1fr)}}
+.col{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;min-height:140px}
+.col h2{font-size:15px;margin:0 0 12px;display:flex;justify-content:space-between;align-items:center}
+.col h2 em{font-style:normal;font-size:12px;padding:2px 9px;border-radius:99px;border:1px solid var(--line);color:var(--mut)}
+.t{background:var(--bg);border:1px solid var(--line);border-left:4px solid var(--a);border-radius:10px;padding:10px 12px;margin-bottom:10px}
+.col:nth-child(2) .t{border-left-color:var(--b)}
+.col:nth-child(3) .t{border-left-color:var(--c)}
+.t p{margin:0 0 8px;word-break:break-word}
+.act{display:flex;gap:6px}
+.act button{font:inherit;font-size:13px;padding:4px 10px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer}
+.act button:last-child{margin-left:auto;color:var(--b)}
+.none{color:var(--mut);font-size:14px;text-align:center;padding:14px 0}
+</style>
+</head>
+<body>
+<div class="w">
+<h1><span>Vazifalar</span> taxtasi</h1>
+<p class="sub">Vazifa qo'shing va uni bosqichlar bo'ylab suring</p>
+<div class="add"><input id="in" placeholder="Yangi vazifa..." maxlength="80"><button id="ab">Qo'shish</button></div>
+<div class="stats"><span id="st1"></span><span id="st2"></span></div>
+<div class="prog"><div id="pg"></div></div>
+<div class="board" id="bd"></div>
+</div>
+<script>
+var names=['Rejada','Jarayonda','Bajarildi'],tasks=[];
+try{tasks=JSON.parse(localStorage.getItem('tasks')||'null')||[]}catch(e){tasks=[]}
+if(!tasks.length)tasks=[{t:'Portfolio saytini tugatish',s:1},{t:'SQL jadvallarni takrorlash',s:0},{t:'Kali Linux o\'rnatish',s:2}];
+function save(){try{localStorage.setItem('tasks',JSON.stringify(tasks))}catch(e){}}
+function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
+function draw(){
+var b=document.getElementById('bd');b.innerHTML='';
+names.forEach(function(n,s){
+var col=document.createElement('div');col.className='col';
+var list=tasks.filter(function(x){return x.s===s});
+col.innerHTML='<h2>'+n+'<em>'+list.length+'</em></h2>';
+if(!list.length)col.innerHTML+='<div class="none">Bo\'sh</div>';
+tasks.forEach(function(x,i){
+if(x.s!==s)return;
+var d=document.createElement('div');d.className='t';
+d.innerHTML='<p>'+esc(x.t)+'</p><div class="act"><button>&larr;</button><button>&rarr;</button><button>O\'chirish</button></div>';
+var bt=d.querySelectorAll('button');
+bt[0].onclick=function(){if(x.s>0){x.s--;save();draw()}};
+bt[1].onclick=function(){if(x.s<2){x.s++;save();draw()}};
+bt[2].onclick=function(){tasks.splice(i,1);save();draw()};
+col.appendChild(d)});
+b.appendChild(col)});
+var done=tasks.filter(function(x){return x.s===2}).length,all=tasks.length;
+document.getElementById('st1').textContent='Jami: '+all;
+document.getElementById('st2').textContent='Bajarildi: '+done;
+document.getElementById('pg').style.width=(all?Math.round(done/all*100):0)+'%';
+}
+function add(){var i=document.getElementById('in'),v=i.value.trim();if(!v)return;tasks.push({t:v,s:0});i.value='';save();draw()}
+document.getElementById('ab').onclick=add;
+document.getElementById('in').onkeydown=function(e){if(e.key==='Enter')add()};
+draw();
+</script>
+</body>
+</html>

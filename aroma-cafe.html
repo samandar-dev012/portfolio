@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aroma | Kofexona</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;500&display=swap">
+<style>
+:root{--bg:#faf5ee;--fg:#2b1d14;--mut:#7a6455;--card:#fffaf3;--line:#e8dccb;--acc:#b5651d;--acc2:#6f3b14;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17100b;--fg:#f3e8da;--mut:#b09a86;--card:#21170f;--line:#3a2a1d;--acc:#e0a062;--acc2:#f0c590}}
+:root[data-theme="dark"]{--bg:#17100b;--fg:#f3e8da;--mut:#b09a86;--card:#21170f;--line:#3a2a1d;--acc:#e0a062;--acc2:#f0c590}
+html{scroll-behavior:smooth}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,sans-serif;line-height:1.6}
+.w{max-width:980px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:"Playfair Display",Georgia,serif;margin:0}
+nav{display:flex;justify-content:space-between;align-items:center;height:60px;border-bottom:1px solid var(--line)}
+nav b{font-family:"Playfair Display",serif;font-size:24px;color:var(--acc)}
+nav a{color:var(--mut);text-decoration:none;margin-left:16px;font-size:14px}
+.hero{padding:70px 0 56px;display:grid;gap:30px;align-items:center}
+@media(min-width:760px){.hero{grid-template-columns:1.2fr 1fr}}
+.hero h1{font-size:clamp(38px,8vw,66px);line-height:1.05}
+.hero h1 em{color:var(--acc);font-style:italic}
+.hero p{color:var(--mut);font-size:18px;max-width:480px}
+.btn{display:inline-block;margin-top:14px;padding:13px 26px;border-radius:99px;background:var(--acc);color:#fff;text-decoration:none;font-weight:500}
+.cup{justify-self:center;width:230px;height:230px;position:relative}
+.cup .c{position:absolute;left:30px;top:70px;width:140px;height:120px;border-radius:0 0 70px 70px;background:var(--acc2)}
+.cup .h{position:absolute;left:158px;top:96px;width:44px;height:50px;border:12px solid var(--acc2);border-left:0;border-radius:0 30px 30px 0}
+.cup .s{position:absolute;left:40px;top:196px;width:160px;height:12px;border-radius:99px;background:var(--line)}
+.cup i{position:absolute;top:20px;width:8px;height:44px;border-radius:99px;background:var(--acc);opacity:.5;animation:st 2.4s infinite ease-in-out}
+.cup i:nth-child(4){left:70px}.cup i:nth-child(5){left:98px;animation-delay:.5s}.cup i:nth-child(6){left:126px;animation-delay:1s}
+@keyframes st{0%,100%{transform:translateY(6px);opacity:.15}50%{transform:translateY(-8px);opacity:.6}}
+@media(prefers-reduced-motion:reduce){.cup i{animation:none}}
+section{padding:48px 0}
+h2{font-size:34px;margin-bottom:6px}
+.sub{color:var(--mut);margin:0 0 22px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.tabs button{font:inherit;padding:8px 18px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer}
+.tabs button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.it{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;justify-content:space-between;gap:12px}
+.it h3{font-size:18px}.it p{margin:4px 0 0;color:var(--mut);font-size:14px}
+.it b{color:var(--acc);white-space:nowrap}
+.info{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.info div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.info h3{font-size:18px;margin-bottom:6px;color:var(--acc)}
+footer{border-top:1px solid var(--line);padding:22px 0;text-align:center;color:var(--mut);font-size:13px;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="w">
+<nav><b>Aroma</b><div><a href="#menu">Menyu</a><a href="#info">Aloqa</a></div></nav>
+<header class="hero">
+<div><h1>Har kuni <em>yangi</em> kofe lazzati</h1><p>Eng sara donalardan, har tongda qovurilgan. Aroma kofexonasida yaxshi kun bir piyoladan boshlanadi.</p><a class="btn" href="#menu">Menyuni ko'rish</a></div>
+<div class="cup" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><div class="c"></div><div class="h"></div><div class="s"></div></div>
+</header>
+<section id="menu">
+<h2>Menyu</h2><p class="sub">Toifani tanlang</p>
+<div class="tabs" id="tabs"></div>
+<div class="menu" id="menu-list"></div>
+</section>
+<section id="info">
+<h2>Bizga keling</h2><p class="sub">Sizni kutamiz</p>
+<div class="info">
+<div><h3>Manzil</h3><p>Toshkent, Amir Temur ko'chasi 12</p></div>
+<div><h3>Ish vaqti</h3><p>Har kuni 08:00 dan 23:00 gacha</p></div>
+<div><h3>Telefon</h3><p>+998 90 123 45 67</p></div>
+</div>
+</section>
+</div>
+<footer>&copy; 2026 Aroma kofexonasi</footer>
+<script>
+var items=[
+['Qaynoq','Espresso','Quyuq va kuchli',18000],['Qaynoq','Kapuchino','Sut ko\'pigi bilan',24000],['Qaynoq','Latte','Yumshoq va mayin',26000],['Qaynoq','Moka','Shokolad qo\'shilgan',28000],
+['Sovuq','Aysed latte','Muz bilan',27000],['Sovuq','Kold bryu','12 soat dam olgan',30000],['Sovuq','Frappe','Qaymoqli va sovuq',32000],
+['Shirinlik','Kruassan','Sariyog\'li, yangi',16000],['Shirinlik','Chizkeyk','Uy retsepti',34000],['Shirinlik','Brauni','Yong\'oqli',22000]
+];
+var cats=['Hammasi','Qaynoq','Sovuq','Shirinlik'],cur='Hammasi';
+function money(n){return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,' ')+' so\'m'}
+function draw(){
+var t=document.getElementById('tabs');t.innerHTML='';
+cats.forEach(function(c){var b=document.createElement('button');b.textContent=c;if(c===cur)b.className='on';b.onclick=function(){cur=c;draw()};t.appendChild(b)});
+var l=document.getElementById('menu-list');l.innerHTML='';
+items.filter(function(i){return cur==='Hammasi'||i[0]===cur}).forEach(function(i){
+var d=document.createElement('div');d.className='it';
+d.innerHTML='<div><h3>'+i[1]+'</h3><p>'+i[2]+'</p></div><b>'+money(i[3])+'</b>';l.appendChild(d)});
+}
+draw();
+</script>
+</body>
+</html>

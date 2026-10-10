@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MarketUz | Onlayn do'kon</title>
+<style>
+:root{--bg:#f4f6f8;--fg:#0f172a;--mut:#64748b;--card:#fff;--line:#e2e8f0;--acc:#16a34a;--acc2:#0ea5e9;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1118;--fg:#e6edf3;--mut:#8b98a8;--card:#121b26;--line:#223042;--acc:#4ade80;--acc2:#38bdf8}}
+:root[data-theme="dark"]{--bg:#0b1118;--fg:#e6edf3;--mut:#8b98a8;--card:#121b26;--line:#223042;--acc:#4ade80;--acc2:#38bdf8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
+.bar{max-width:1000px;margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center}
+.logo{font-weight:800;font-size:20px;color:var(--acc)}
+.bar input{flex:1;min-width:0;padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--fg);font:inherit}
+.cartbtn{position:relative;border:0;background:var(--acc);color:#07210f;font:inherit;font-weight:700;padding:10px 16px;border-radius:10px;cursor:pointer}
+.main{max-width:1000px;margin:0 auto;padding:18px 16px 60px}
+.cats{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:16px}
+.cats button{white-space:nowrap;font:inherit;padding:7px 16px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer}
+.cats button.on{background:var(--fg);color:var(--bg)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px}
+.p{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s}
+.p:hover{transform:translateY(-3px)}
+.ph{height:110px;display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:800;color:#fff}
+.pb{padding:12px;display:flex;flex-direction:column;gap:4px;flex:1}
+.pb small{color:var(--mut)}.pb b{font-size:15px}
+.pr{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:6px;padding-top:8px}
+.pr span{font-weight:700;color:var(--acc)}
+.add{border:0;background:var(--fg);color:var(--bg);border-radius:8px;padding:7px 12px;font:inherit;cursor:pointer}
+.empty{color:var(--mut);padding:30px 0;text-align:center}
+.drawer{position:absolute;right:0;top:0;width:min(380px,100%);min-height:100%;background:var(--card);border-left:1px solid var(--line);padding:18px;display:none;z-index:9}
+.drawer.open{display:block}
+.shade{display:none;position:absolute;inset:0;background:rgba(0,0,0,.45);z-index:8}
+.shade.open{display:block}
+.row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.row div:first-child{flex:1}.row small{color:var(--mut)}
+.q{display:flex;align-items:center;gap:6px}
+.q button{width:28px;height:28px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--fg);cursor:pointer}
+.tot{display:flex;justify-content:space-between;font-size:18px;font-weight:700;margin:18px 0 12px}
+.buy{width:100%;border:0;background:var(--acc);color:#07210f;font:inherit;font-weight:700;padding:13px;border-radius:10px;cursor:pointer}
+.close{float:right;border:0;background:none;color:var(--fg);font-size:22px;cursor:pointer}
+#app{position:relative;min-height:100vh;overflow:hidden}
+</style>
+</head>
+<body>
+<div id="app">
+<header><div class="bar"><span class="logo">MarketUz</span><input id="q" placeholder="Mahsulot qidirish..."><button class="cartbtn" id="cb">Savat (0)</button></div></header>
+<div class="main"><div class="cats" id="cats"></div><div class="grid" id="grid"></div></div>
+<div class="shade" id="sh"></div>
+<aside class="drawer" id="dr"><button class="close" id="cl" aria-label="Yopish">&times;</button><h2 style="margin:0 0 8px">Savat</h2><div id="lines"></div><div class="tot"><span>Jami</span><span id="total">0</span></div><button class="buy" id="buy">Buyurtma berish</button></aside>
+</div>
+<script>
+var P=[
+['Meva','Olma Samarqand','1 kg',16000,'#ef4444'],['Meva','Banan','1 kg',19000,'#eab308'],['Meva','Anor','1 kg',28000,'#be123c'],
+['Sabzavot','Pomidor','1 kg',14000,'#f97316'],['Sabzavot','Bodring','1 kg',12000,'#16a34a'],['Sabzavot','Kartoshka','1 kg',8000,'#a16207'],
+['Sut','Sut 1 litr','Pastlangan',11000,'#0ea5e9'],['Sut','Qatiq','500 g',9000,'#64748b'],['Sut','Pishloq','300 g',38000,'#f59e0b'],
+['Non','Obi non','1 dona',5000,'#b45309'],['Non','Patir','1 dona',7000,'#92400e'],['Ichimlik','Choy qora','100 g',22000,'#047857']
+];
+var cats=['Hammasi','Meva','Sabzavot','Sut','Non','Ichimlik'],cur='Hammasi',cart={};
+try{cart=JSON.parse(localStorage.getItem('cart')||'{}')}catch(e){cart={}}
+function m(n){return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,' ')+' so\'m'}
+function save(){try{localStorage.setItem('cart',JSON.stringify(cart))}catch(e){}}
+function drawCats(){var c=document.getElementById('cats');c.innerHTML='';cats.forEach(function(x){var b=document.createElement('button');b.textContent=x;if(x===cur)b.className='on';b.onclick=function(){cur=x;drawCats();drawGrid()};c.appendChild(b)})}
+function drawGrid(){
+var q=document.getElementById('q').value.toLowerCase(),g=document.getElementById('grid');g.innerHTML='';var n=0;
+P.forEach(function(p,i){
+if(cur!=='Hammasi'&&p[0]!==cur)return;if(q&&p[1].toLowerCase().indexOf(q)<0)return;n++;
+var d=document.createElement('div');d.className='p';
+d.innerHTML='<div class="ph" style="background:'+p[4]+'">'+p[1].charAt(0)+'</div><div class="pb"><b>'+p[1]+'</b><small>'+p[2]+'</small><div class="pr"><span>'+m(p[3])+'</span><button class="add">Qo\'shish</button></div></div>';
+d.querySelector('.add').onclick=function(){cart[i]=(cart[i]||0)+1;save();drawCart()};
+g.appendChild(d)});
+if(!n)g.innerHTML='<div class="empty">Hech narsa topilmadi</div>';
+}
+function drawCart(){
+var l=document.getElementById('lines');l.innerHTML='';var t=0,c=0;
+Object.keys(cart).forEach(function(k){
+var p=P[k],q=cart[k];if(!p||q<1)return;t+=p[3]*q;c+=q;
+var r=document.createElement('div');r.className='row';
+r.innerHTML='<div><b>'+p[1]+'</b><br><small>'+m(p[3])+'</small></div><div class="q"><button>-</button><span>'+q+'</span><button>+</button></div>';
+var b=r.querySelectorAll('button');
+b[0].onclick=function(){cart[k]--;if(cart[k]<1)delete cart[k];save();drawCart()};
+b[1].onclick=function(){cart[k]++;save();drawCart()};
+l.appendChild(r)});
+if(!c)l.innerHTML='<div class="empty">Savat bo\'sh</div>';
+document.getElementById('total').textContent=m(t);
+document.getElementById('cb').textContent='Savat ('+c+')';
+}
+function tog(o){document.getElementById('dr').classList.toggle('open',o);document.getElementById('sh').classList.toggle('open',o)}
+document.getElementById('cb').onclick=function(){tog(true)};
+document.getElementById('cl').onclick=function(){tog(false)};
+document.getElementById('sh').onclick=function(){tog(false)};
+document.getElementById('q').oninput=drawGrid;
+document.getElementById('buy').onclick=function(){if(!Object.keys(cart).length){return}cart={};save();drawCart();tog(false);alert('Buyurtmangiz qabul qilindi!')};
+drawCats();drawGrid();drawCart();
+</script>
+</body>
+</html>

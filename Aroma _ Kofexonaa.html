@@ -1,1 +1,219 @@
-
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aroma | Kofexona</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;500&display=swap">
+<style>
+:root{--bg:#faf5ee;--fg:#2b1d14;--mut:#7a6455;--card:#fffaf3;--line:#e8dccb;--acc:#b5651d;--acc2:#6f3b14;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17100b;--fg:#f3e8da;--mut:#b09a86;--card:#21170f;--line:#3a2a1d;--acc:#e0a062;--acc2:#f0c590}}
+:root[data-theme="dark"]{--bg:#17100b;--fg:#f3e8da;--mut:#b09a86;--card:#21170f;--line:#3a2a1d;--acc:#e0a062;--acc2:#f0c590}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,sans-serif;line-height:1.5}
+.w{max-width:960px;margin:0 auto;padding:0 18px 60px}
+h1,h2,h3{font-family:"Playfair Display",Georgia,serif;margin:0}
+html{scroll-behavior:smooth}
+nav{display:flex;justify-content:space-between;align-items:center;height:58px;border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);background:color-mix(in srgb, var(--bg) 88%, transparent);backdrop-filter:blur(8px);z-index:5}
+nav b{font-family:"Playfair Display",serif;font-size:22px;color:var(--acc)}
+nav button{font:inherit;font-size:12px;padding:5px 12px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer;transition:transform .2s,background .2s}
+nav button:hover{transform:translateY(-1px)}
+nav button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.hero{padding:54px 0 36px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb, var(--acc) 18%, transparent),transparent 70%);z-index:0}
+.hero h1{font-size:clamp(32px,7vw,54px);line-height:1.08;position:relative;z-index:1}
+.hero h1 em{font-style:italic;color:var(--acc)}
+.hero p{color:var(--mut);max-width:440px;margin:12px auto 0;position:relative;z-index:1;font-size:15px}
+.cup{margin:26px auto 0;width:150px;height:150px;position:relative;z-index:1}
+.cup .c{position:absolute;left:20px;top:46px;width:90px;height:76px;border-radius:0 0 44px 44px;background:var(--acc2)}
+.cup .h{position:absolute;left:102px;top:62px;width:28px;height:32px;border:8px solid var(--acc2);border-left:0;border-radius:0 20px 20px 0}
+.cup .s{position:absolute;left:26px;top:126px;width:100px;height:8px;border-radius:99px;background:var(--line)}
+.cup i{position:absolute;top:12px;width:5px;height:28px;border-radius:99px;background:var(--acc);opacity:.5;animation:st 2.4s infinite ease-in-out}
+.cup i:nth-child(2){left:44px}.cup i:nth-child(3){left:62px;animation-delay:.5s}.cup i:nth-child(4){left:80px;animation-delay:1s}
+@keyframes st{0%,100%{transform:translateY(6px);opacity:.15}50%{transform:translateY(-8px);opacity:.6}}
+@media(prefers-reduced-motion:reduce){.cup i{animation:none}html{scroll-behavior:auto}}
+.rev{opacity:0;transform:translateY(18px);transition:opacity .6s,transform .6s}
+.rev.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rev{opacity:1;transform:none}}
+h2{font-size:28px;margin:30px 0 4px}
+.sub{color:var(--mut);margin:0 0 16px;font-size:14px}
+.cats{display:flex;gap:8px;overflow-x:auto;margin-bottom:14px}
+.cats button{font:inherit;white-space:nowrap;padding:7px 16px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer}
+.cats button.on{background:var(--fg);color:var(--bg)}
+.menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.it{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s,border-color .25s}
+.it:hover{transform:translateY(-4px);border-color:var(--acc);box-shadow:0 10px 24px rgba(0,0,0,.08)}
+.ph{height:108px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.ph svg{width:54px;height:54px}
+.ph img{width:100%;height:100%;object-fit:cover}
+.body{padding:14px;display:flex;flex-direction:column;gap:6px}
+.it h3{font-size:17px}.it p{margin:0;color:var(--mut);font-size:13px}
+.it .row{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.it b{color:var(--acc)}
+.add{border:0;background:var(--fg);color:var(--bg);border-radius:8px;padding:6px 12px;font:inherit;cursor:pointer;transition:transform .15s}
+.add:active{transform:scale(.94)}
+.del{border:0;background:none;color:#c0392b;font:inherit;cursor:pointer;font-size:13px;text-align:left;padding:0}
+.admin{background:var(--card);border:1px dashed var(--acc);border-radius:14px;padding:16px;margin-top:20px}
+.admin input{font:inherit;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--fg)}
+.admin .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:8px}
+.admin button.mk{border:0;background:var(--acc);color:#fff;border-radius:8px;padding:9px 16px;font:inherit;cursor:pointer}
+.cart{position:fixed;right:14px;bottom:14px;z-index:9}
+.cart button{border:0;background:var(--acc);color:#fff;border-radius:99px;padding:13px 20px;font:inherit;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.25);transition:transform .2s}
+.cart button:hover{transform:scale(1.05)}
+.sheet{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;z-index:10;align-items:flex-end}
+.sheet.open{display:flex}
+.panel{background:var(--bg);width:100%;max-height:85vh;overflow:auto;border-radius:18px 18px 0 0;padding:18px;padding-bottom:calc(18px + env(safe-area-inset-bottom,0px));animation:up .3s ease}
+@keyframes up{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
+@media(prefers-reduced-motion:reduce){.panel{animation:none}}
+.line{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line)}
+.field{font:inherit;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--fg);width:100%;margin-bottom:8px}
+.ord{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:8px}
+.ord small{color:var(--mut)}
+.badge{font-size:11px;padding:2px 8px;border-radius:99px;background:var(--acc);color:#fff}
+.empty{color:var(--mut);text-align:center;padding:20px}
+footer{border-top:1px solid var(--line);padding:20px 0;text-align:center;color:var(--mut);font-size:13px;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="w">
+<nav><b>Aroma</b><button id="adminbtn">Admin</button></nav>
+<header class="hero">
+<h1>Har kuni <em>yangi</em> kofe lazzati</h1>
+<p>Eng sara donalardan, har tongda qovurilgan. Aroma kofexonasida yaxshi kun bir piyoladan boshlanadi.</p>
+<div class="cup" aria-hidden="true"><i></i><i></i><i></i><div class="c"></div><div class="h"></div><div class="s"></div></div>
+</header>
+<section>
+<h2 class="rev">Menyu</h2><p class="sub rev">Toifani tanlang va buyurtma bering</p>
+<div class="cats rev" id="tabs"></div>
+<div class="menu rev" id="menu-list"></div>
+<div id="admin-box"></div>
+</section>
+</div>
+<div class="cart"><button id="cartbtn">Savat (0)</button></div>
+<div class="sheet" id="sheet"><div class="panel">
+<h3>Savat</h3><div id="lines"></div>
+<div class="line" style="font-weight:700"><span>Jami</span><span id="tot">0</span></div>
+<input class="field" id="phone" placeholder="Telefon raqamingiz" style="margin-top:12px">
+<input class="field" id="addr" placeholder="Yashash manzilingiz">
+<button class="add" style="width:100%;padding:12px" id="order-btn">Buyurtma berish</button>
+<div id="myorders" style="margin-top:18px"></div>
+<button style="margin-top:10px;background:none;border:1px solid var(--line);border-radius:8px;padding:8px;width:100%" id="close-sheet">Yopish</button>
+</div></div>
+<footer>&copy; 2026 Aroma kofexonasi</footer>
+<script>
+var ADMIN_CODE='aroma2026';
+var ICONS={
+ coffee:['#6f3b14','#e0a062','<path d="M18 34h32v20a16 16 0 0 1-16 16h0a16 16 0 0 1-16-16V34z"/><path d="M50 38h6a8 8 0 0 1 0 16h-6"/><path d="M26 16c0 4-4 4-4 8m14-8c0 4-4 4-4 8" stroke-linecap="round"/>'],
+ cold:['#0ea5e9','#7dd3fc','<path d="M22 18h26l-3 44a3 3 0 0 1-3 3H28a3 3 0 0 1-3-3L22 18z"/><path d="M24 26h22M35 26v39" stroke-linecap="round"/>'],
+ cake:['#db2777','#f9a8d4','<path d="M14 48l21-24 21 24z"/><path d="M18 48h34v8a4 4 0 0 1-4 4H22a4 4 0 0 1-4-4v-8z"/><circle cx="35" cy="16" r="3"/>'],
+ croissant:['#b5651d','#f0c590','<path d="M14 42c6-20 26-28 42-18-6 2-10 6-12 12 6-2 12 0 16 6-10 8-24 10-34 6-6 6-8 2-12-6z"/>'],
+ donut:['#d97706','#fcd34d','<circle cx="35" cy="35" r="21"/><circle cx="35" cy="35" r="8" fill="var(--bg)" stroke="none"/><circle cx="26" cy="20" r="2" fill="currentColor" stroke="none"/><circle cx="44" cy="18" r="2" fill="currentColor" stroke="none"/><circle cx="50" cy="32" r="2" fill="currentColor" stroke="none"/>'],
+ cookie:['#92400e','#fbbf24','<circle cx="35" cy="35" r="20"/><circle cx="28" cy="28" r="2.4" fill="currentColor" stroke="none"/><circle cx="42" cy="30" r="2.4" fill="currentColor" stroke="none"/><circle cx="33" cy="42" r="2.4" fill="currentColor" stroke="none"/><circle cx="45" cy="42" r="2.4" fill="currentColor" stroke="none"/>'],
+ tea:['#059669','#6ee7b7','<path d="M16 28h34v14a16 16 0 0 1-16 16h-2a16 16 0 0 1-16-16V28z"/><path d="M50 32h4a7 7 0 0 1 0 14h-4"/><path d="M33 12c0 4-5 4-5 9" stroke-linecap="round"/>']
+};
+function iconSvg(type){var i=ICONS[type]||ICONS.coffee;return '<svg viewBox="0 0 70 70" fill="none" stroke="#fff" stroke-width="2.5">'+i[2]+'</svg>'}
+function iconGrad(type){var i=ICONS[type]||ICONS.coffee;return 'linear-gradient(135deg,'+i[0]+','+i[1]+')'}
+var cats=['Hammasi'],cur='Hammasi',menu=[],orders=[],cart={},isAdmin=false;
+function m(n){return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,' ')+" so'm"}
+function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
+function load(){
+  try{menu=JSON.parse(localStorage.getItem('aroma_menu')||'null')}catch(e){menu=null}
+  if(!menu){menu=[
+    {id:'1',category:'Qaynoq',name:'Espresso',desc:'Quyuq va kuchli',price:18000,icon:'coffee'},
+    {id:'2',category:'Qaynoq',name:'Kapuchino',desc:'Sut ko\'pigi bilan',price:24000,icon:'coffee'},
+    {id:'3',category:'Qaynoq',name:'Latte',desc:'Yumshoq va mayin',price:26000,icon:'coffee'},
+    {id:'4',category:'Sovuq',name:'Aysed latte',desc:'Muz bilan',price:27000,icon:'cold'},
+    {id:'5',category:'Sovuq',name:'Kold bryu',desc:'12 soat dam olgan',price:30000,icon:'cold'},
+    {id:'6',category:'Shirinlik',name:'Kruassan',desc:'Sariyog\'li, yangi',price:16000,icon:'croissant'},
+    {id:'7',category:'Shirinlik',name:'Tort bo\'lagi',desc:'Shokoladli, uy retsepti',price:34000,icon:'cake'},
+    {id:'8',category:'Shirinlik',name:'Donut',desc:'Shakar qoplamali',price:14000,icon:'donut'},
+    {id:'9',category:'Shirinlik',name:'Pechenye',desc:'Shokolad bo\'lakchali',price:12000,icon:'cookie'},
+    {id:'10',category:'Qaynoq',name:'Yashil choy',desc:'Tabiiy barglardan',price:15000,icon:'tea'}
+  ];save()}
+  try{orders=JSON.parse(localStorage.getItem('aroma_orders')||'[]')}catch(e){orders=[]}
+  try{isAdmin=localStorage.getItem('aroma_admin')==='1'}catch(e){isAdmin=false}
+  cats=['Hammasi'].concat(uniq(menu.map(function(x){return x.category})));
+}
+function save(){try{localStorage.setItem('aroma_menu',JSON.stringify(menu))}catch(e){}}
+function saveOrders(){try{localStorage.setItem('aroma_orders',JSON.stringify(orders))}catch(e){}}
+function uniq(a){return a.filter(function(v,i){return a.indexOf(v)===i})}
+function drawAll(){drawNav();drawTabs();drawMenu();drawAdmin()}
+function drawNav(){var b=document.getElementById('adminbtn');b.textContent=isAdmin?'Admin (yoqilgan)':'Admin';b.classList.toggle('on',isAdmin)}
+function drawTabs(){var t=document.getElementById('tabs');t.innerHTML='';cats.forEach(function(c){var b=document.createElement('button');b.textContent=c;if(c===cur)b.className='on';b.onclick=function(){cur=c;drawTabs();drawMenu()};t.appendChild(b)})}
+function drawMenu(){
+  var l=document.getElementById('menu-list');l.innerHTML='';
+  var list=menu.filter(function(x){return cur==='Hammasi'||x.category===cur});
+  if(!list.length){l.innerHTML='<div class="empty">Bu toifada hali narsa yo\'q</div>';return}
+  list.forEach(function(p){
+    var d=document.createElement('div');d.className='it';
+    d.innerHTML='<div class="ph" style="'+(p.photo?'':'background:'+iconGrad(p.icon))+'">'+(p.photo?'<img src="'+p.photo+'" alt="">':iconSvg(p.icon))+'</div><div class="body"><h3>'+esc(p.name)+'</h3><p>'+esc(p.desc||'')+'</p><div class="row"><b>'+m(p.price)+'</b><button class="add">Qo\'shish</button></div>'+(isAdmin?'<button class="del">O\'chirish</button>':'')+'</div>';
+    d.querySelector('.add').onclick=function(){cart[p.id]=(cart[p.id]||0)+1;drawCart()};
+    var delBtn=d.querySelector('.del');if(delBtn)delBtn.onclick=function(){if(confirm('O\'chirilsinmi?')){menu=menu.filter(function(x){return x.id!==p.id});save();cats=['Hammasi'].concat(uniq(menu.map(function(x){return x.category})));drawTabs();drawMenu()}};
+    l.appendChild(d)});
+}
+function drawAdmin(){
+  var box=document.getElementById('admin-box');box.innerHTML='';
+  if(!isAdmin)return;
+  var d=document.createElement('div');d.className='admin';
+  d.innerHTML='<h3 style="margin-bottom:10px">Admin panel</h3>'+
+  '<div class="grid2"><input id="na" placeholder="Toifa"><input id="nb" placeholder="Nomi"><input id="nc" placeholder="Narxi" type="number"><input id="nd" placeholder="Tavsif">'+
+  '<select id="ne" class="field" style="margin:0"><option value="coffee">\u2615 Kofe</option><option value="cold">\ud83e\uddca Sovuq ichimlik</option><option value="tea">\ud83c\udf75 Choy</option><option value="cake">\ud83c\udf70 Tort</option><option value="croissant">\ud83e\udd50 Kruassan</option><option value="donut">\ud83c\udf69 Donut</option><option value="cookie">\ud83c\udf6a Pechenye</option></select>'+
+  '<label style="display:block;margin-top:10px;font-size:13px;color:var(--mut)">Rasm (ixtiyoriy, yuklasangiz belgichadan ustun turadi)</label>'+
+  '<input type="file" id="nf" accept="image/*" style="margin-top:6px">'+
+  '<br><button class="mk" id="addbtn" style="margin-top:12px">Mahsulot qo\'shish</button>'+
+  '<h3 style="margin:16px 0 8px">Buyurtmalar ('+orders.length+')</h3>'+
+  (orders.length?orders.slice().reverse().map(function(o){return '<div class="ord"><b>'+m(o.total||0)+'</b> <span class="badge">'+(o.status||'yangi')+'</span><br><small>'+(o.items||[]).map(function(i){return i.name+' x'+i.qty}).join(', ')+'</small><br><small>'+esc(o.phone||'')+' &middot; '+esc(o.address||'')+'</small></div>'}).join(''):'<div class="empty">Hali buyurtma yo\'q</div>');
+  box.appendChild(d);
+  document.getElementById('addbtn').onclick=function(){
+    var a=document.getElementById('na').value.trim(),b=document.getElementById('nb').value.trim(),c=parseInt(document.getElementById('nc').value)||0,dd=document.getElementById('nd').value.trim(),ic=document.getElementById('ne').value,file=document.getElementById('nf').files[0];
+    if(!a||!b||!c)return alert('Toifa, nomi va narxini to\'ldiring');
+    function finish(photo){
+      menu.push({id:String(Date.now()),category:a,name:b,price:c,desc:dd,icon:ic,photo:photo||null});save();
+      cats=['Hammasi'].concat(uniq(menu.map(function(x){return x.category})));
+      document.getElementById('na').value='';document.getElementById('nb').value='';document.getElementById('nc').value='';document.getElementById('nd').value='';document.getElementById('nf').value='';
+      drawTabs();drawMenu();drawAdmin();
+    }
+    if(file){
+      var r=new FileReader();
+      r.onload=function(){finish(r.result)};
+      r.onerror=function(){alert('Rasmni o\'qib bo\'lmadi');finish(null)};
+      r.readAsDataURL(file);
+    }else{finish(null)}
+  };
+}
+function drawCart(){
+  var l=document.getElementById('lines'),t=0,n=0;l.innerHTML='';
+  Object.keys(cart).forEach(function(id){var p=menu.find(function(x){return x.id===id});if(!p||!cart[id])return;t+=p.price*cart[id];n+=cart[id];
+    var r=document.createElement('div');r.className='line';r.innerHTML='<span>'+esc(p.name)+' x'+cart[id]+'</span><span>'+m(p.price*cart[id])+'</span>';l.appendChild(r)});
+  if(!n)l.innerHTML='<div class="empty">Savat bo\'sh</div>';
+  document.getElementById('tot').textContent=m(t);
+  document.getElementById('cartbtn').textContent='Savat ('+n+')';
+}
+document.getElementById('adminbtn').onclick=function(){
+  if(isAdmin){isAdmin=false;try{localStorage.setItem('aroma_admin','0')}catch(e){}drawAll();return}
+  var code=prompt('Admin parolini kiriting:');
+  if(code===ADMIN_CODE){isAdmin=true;try{localStorage.setItem('aroma_admin','1')}catch(e){}drawAll()}
+  else if(code!==null)alert('Parol noto\'g\'ri');
+};
+document.getElementById('cartbtn').onclick=function(){document.getElementById('sheet').classList.add('open')};
+document.getElementById('close-sheet').onclick=function(){document.getElementById('sheet').classList.remove('open')};
+document.getElementById('order-btn').onclick=function(){
+  var items=Object.keys(cart).map(function(id){var p=menu.find(function(x){return x.id===id});return p?{name:p.name,price:p.price,qty:cart[id]}:null}).filter(Boolean);
+  if(!items.length)return alert('Savat bo\'sh');
+  var phone=document.getElementById('phone').value.trim(),addr=document.getElementById('addr').value.trim();
+  if(!phone||!addr)return alert('Telefon raqami va manzilni kiriting');
+  var total=items.reduce(function(s,i){return s+i.price*i.qty},0);
+  orders.push({items:items,total:total,status:'yangi',phone:phone,address:addr,createdAt:Date.now()});saveOrders();
+  cart={};document.getElementById('phone').value='';document.getElementById('addr').value='';drawCart();drawAdmin();
+  alert('Buyurtmangiz qabul qilindi!');
+};
+load();drawAll();drawCart();
+(function(){
+var els=document.querySelectorAll('.rev');
+if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return}
+var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.1});
+els.forEach(function(e){io.observe(e)});
+})();
+</script>
+</body>
+</html>

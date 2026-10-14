@@ -76,7 +76,7 @@ footer{border-top:1px solid var(--line);padding:20px 0;text-align:center;color:v
 </head>
 <body>
 <div class="w">
-<nav><b>Aroma</b><button id="adminbtn">Admin</button></nav>
+<nav><b id="logo">Aroma</b><button id="adminbtn" style="display:none">Admin</button></nav>
 <header class="hero">
 <h1>Har kuni <em>yangi</em> kofe lazzati</h1>
 <p>Eng sara donalardan, har tongda qovurilgan. Aroma kofexonasida yaxshi kun bir piyoladan boshlanadi.</p>
@@ -93,8 +93,14 @@ footer{border-top:1px solid var(--line);padding:20px 0;text-align:center;color:v
 <div class="sheet" id="sheet"><div class="panel">
 <h3>Savat</h3><div id="lines"></div>
 <div class="line" style="font-weight:700"><span>Jami</span><span id="tot">0</span></div>
-<input class="field" id="phone" placeholder="Telefon raqamingiz" style="margin-top:12px">
-<input class="field" id="addr" placeholder="Yashash manzilingiz">
+<div style="display:flex;gap:6px;margin-top:12px">
+<span style="padding:10px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--mut);white-space:nowrap">+998</span>
+<input class="field" id="phone" placeholder="90 123 45 67" style="margin:0;flex:1" inputmode="numeric" maxlength="12">
+</div>
+<div style="display:flex;gap:6px">
+<input class="field" id="addr" placeholder="Yashash manzilingiz" style="margin:0;flex:1">
+<button type="button" id="locbtn" style="border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:8px;padding:0 12px;cursor:pointer" title="Joylashuvni aniqlash">📍</button>
+</div>
 <button class="add" style="width:100%;padding:12px" id="order-btn">Buyurtma berish</button>
 <div id="myorders" style="margin-top:18px"></div>
 <button style="margin-top:10px;background:none;border:1px solid var(--line);border-radius:8px;padding:8px;width:100%" id="close-sheet">Yopish</button>
@@ -149,7 +155,7 @@ function subscribeOrders(){
   },function(err){console.error(err)});
 }
 function drawAll(){drawNav();drawTabs();drawMenu();drawAdmin()}
-function drawNav(){var b=document.getElementById('adminbtn');b.textContent=isAdmin?'Admin (yoqilgan)':'Admin';b.classList.toggle('on',isAdmin)}
+function drawNav(){var b=document.getElementById('adminbtn');b.textContent=isAdmin?'Admin (yoqilgan)':'Admin';b.classList.toggle('on',isAdmin);if(isAdmin)b.style.display=''}
 function drawTabs(){var t=document.getElementById('tabs');t.innerHTML='';cats.forEach(function(c){var b=document.createElement('button');b.textContent=c;if(c===cur)b.className='on';b.onclick=function(){cur=c;drawTabs();drawMenu()};t.appendChild(b)})}
 function drawMenu(){
   var l=document.getElementById('menu-list');l.innerHTML='';
@@ -200,6 +206,32 @@ function drawCart(){
   document.getElementById('tot').textContent=m(t);
   document.getElementById('cartbtn').textContent='Savat ('+n+')';
 }
+(function(){
+  var p=new URLSearchParams(location.search);
+  if(p.has('admin'))document.getElementById('adminbtn').style.display='';
+})();
+var logoTaps=0,logoTimer=null;
+document.getElementById('logo').onclick=function(){
+  logoTaps++;
+  clearTimeout(logoTimer);
+  logoTimer=setTimeout(function(){logoTaps=0},1500);
+  if(logoTaps>=5){logoTaps=0;document.getElementById('adminbtn').style.display='';}
+};
+document.getElementById('locbtn').onclick=function(){
+  if(!navigator.geolocation)return alert('Brauzeringiz joylashuvni aniqlay olmaydi');
+  var btn=this;btn.disabled=true;var old=btn.textContent;btn.textContent='...';
+  navigator.geolocation.getCurrentPosition(function(pos){
+    var lat=pos.coords.latitude,lon=pos.coords.longitude;
+    fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat='+lat+'&lon='+lon)
+      .then(function(r){return r.json()})
+      .then(function(data){document.getElementById('addr').value=data.display_name||(lat.toFixed(5)+', '+lon.toFixed(5))})
+      .catch(function(){document.getElementById('addr').value=lat.toFixed(5)+', '+lon.toFixed(5)})
+      .finally(function(){btn.disabled=false;btn.textContent=old});
+  },function(err){
+    alert('Joylashuvni aniqlab bo\'lmadi, ruxsat berilganini tekshiring');
+    btn.disabled=false;btn.textContent=old;
+  });
+};
 document.getElementById('adminbtn').onclick=function(){
   if(isAdmin){isAdmin=false;try{localStorage.setItem('aroma_admin','0')}catch(e){}drawAll();return}
   var code=prompt('Admin parolini kiriting:');
@@ -211,8 +243,9 @@ document.getElementById('close-sheet').onclick=function(){document.getElementByI
 document.getElementById('order-btn').onclick=function(){
   var items=Object.keys(cart).map(function(id){var p=menu.find(function(x){return x.id===id});return p?{name:p.name,price:p.price,qty:cart[id]}:null}).filter(Boolean);
   if(!items.length)return alert('Savat bo\'sh');
-  var phone=document.getElementById('phone').value.trim(),addr=document.getElementById('addr').value.trim();
-  if(!phone||!addr)return alert('Telefon raqami va manzilni kiriting');
+  var phoneDigits=document.getElementById('phone').value.trim(),addr=document.getElementById('addr').value.trim();
+  if(!phoneDigits||!addr)return alert('Telefon raqami va manzilni kiriting');
+  var phone='+998'+phoneDigits.replace(/\s+/g,'');
   var total=items.reduce(function(s,i){return s+i.price*i.qty},0);
   var btn=document.getElementById('order-btn');btn.disabled=true;btn.textContent='Yuborilmoqda...';
   fdb.collection('orders').add({items:items,total:total,status:'yangi',phone:phone,address:addr,createdAt:Date.now()}).then(function(){
@@ -232,3 +265,4 @@ els.forEach(function(e){io.observe(e)});
 </script>
 </body>
 </html>
+
